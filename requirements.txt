@@ -3,4 +3,4 @@ python-dotenv
 langchain
 openai
 chromadb
-tiktoken
+tiktoken==0.5.1
