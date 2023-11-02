@@ -5,11 +5,9 @@ from langchain.indexes import VectorstoreIndexCreator
 from langchain.chains import RetrievalQA
 from langchain.chat_models import ChatOpenAI
 
-# Load environment variables
-load_dotenv()
-
 
 def text_to_text_conversation(userQuestion, history, csvLocation, openai_key):
+    print("From chatbot: ", openai_key)
     CSV_FILE_PATH = csvLocation + ""
     if userQuestion.lower() == "exit":
         return "Thank You"
