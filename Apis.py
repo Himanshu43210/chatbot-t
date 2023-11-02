@@ -17,7 +17,7 @@ def chat_endpoint():
     userQuestion = data.get("userQuestion", "")
     history = data.get("history", "")
     openai_key = data.get("openai_key", "")  # Extract OpenAI key from request JSON
-
+    print("Form Apis: ", openai_key)
     # Pass the OpenAI key to the chatbot
     response = text_to_text_conversation(
         userQuestion,
