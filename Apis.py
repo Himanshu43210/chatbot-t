@@ -16,9 +16,14 @@ def chat_endpoint():
 
     userQuestion = data.get("userQuestion", "")
     history = data.get("history", "")
+    openai_key = data.get("openai_key", "")  # Extract OpenAI key from request JSON
 
+    # Pass the OpenAI key to the chatbot
     response = text_to_text_conversation(
-        userQuestion, history, "products/BuilderfloorChatbot/builder_floor.csv"
+        userQuestion,
+        history,
+        "products/BuilderfloorChatbot/builder_floor.csv",
+        openai_key,
     )
 
     return jsonify({"data": response}), 200

@@ -8,16 +8,7 @@ from langchain.chat_models import ChatOpenAI
 # Load environment variables
 load_dotenv()
 
-# Get the OpenAI API key from the environment variables
-OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
-
-# If the API key is not available, prompt the user for input
-if not OPENAI_API_KEY:
-    OPENAI_API_KEY = input("Enter your OpenAI API key: ")
-
-os.environ["OPENAI_API_KEY"] = OPENAI_API_KEY
-
-def text_to_text_conversation(userQuestion, history, csvLocation):
+def text_to_text_conversation(userQuestion, history, csvLocation, openai_key):
     CSV_FILE_PATH = csvLocation + ""
     if userQuestion.lower() == "exit":
         return "Thank You"
@@ -29,7 +20,7 @@ def text_to_text_conversation(userQuestion, history, csvLocation):
     llm = ChatOpenAI(
         streaming=True,
         temperature=0,
-        openai_api_key=OPENAI_API_KEY,
+        openai_api_key=openai_key,
     )
     chain = RetrievalQA.from_chain_type(
         llm=llm,
@@ -42,12 +33,16 @@ def text_to_text_conversation(userQuestion, history, csvLocation):
 
     # Get the answer from langchain
     response = chain({"question": full_query + userQuestion})
-    answer = response.get('result', 'No answer found.')
+    answer = response.get("result", "No answer found.")
 
     return answer
+
 
 # Test the method
 if __name__ == "__main__":
     chatResponse = text_to_text_conversation(
-        "What do you sell and what is my name?", "Hi, My name is Isha.", "builder_floor.csv")
+        "What do you sell and what is my name?",
+        "Hi, My name is Isha.",
+        "builder_floor.csv",
+    )
     print(chatResponse)
