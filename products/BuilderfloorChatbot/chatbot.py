@@ -5,9 +5,8 @@ from langchain.indexes import VectorstoreIndexCreator
 from langchain.chains import RetrievalQA
 from langchain.chat_models import ChatOpenAI
 
-
 def text_to_text_conversation(userQuestion, history, csvLocation, openai_key):
-    print("From chatbot: ", openai_key)
+    os.environ["OPENAI_API_KEY"] = openai_key
     CSV_FILE_PATH = csvLocation + ""
     if userQuestion.lower() == "exit":
         return "Thank You"
@@ -16,7 +15,6 @@ def text_to_text_conversation(userQuestion, history, csvLocation, openai_key):
     loader = CSVLoader(file_path=CSV_FILE_PATH)
     index_creator = VectorstoreIndexCreator()
     docsearch = index_creator.from_loaders([loader])
-    print("From chatbot: ", openai_key)
     llm = ChatOpenAI(
         streaming=True,
         temperature=0,
