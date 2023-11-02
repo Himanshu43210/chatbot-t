@@ -7,10 +7,15 @@ from langchain.chat_models import ChatOpenAI
 
 # Load environment variables
 load_dotenv()
+
+# Get the OpenAI API key from the environment variables
 OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
 
-os.environ["OPENAI_API_KEY"] = OPENAI_API_KEY
+# If the API key is not available, prompt the user for input
+if not OPENAI_API_KEY:
+    OPENAI_API_KEY = input("Enter your OpenAI API key: ")
 
+os.environ["OPENAI_API_KEY"] = OPENAI_API_KEY
 
 def text_to_text_conversation(userQuestion, history, csvLocation):
     CSV_FILE_PATH = csvLocation + ""
@@ -40,7 +45,6 @@ def text_to_text_conversation(userQuestion, history, csvLocation):
     answer = response.get('result', 'No answer found.')
 
     return answer
-
 
 # Test the method
 if __name__ == "__main__":
