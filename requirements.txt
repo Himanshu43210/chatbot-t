@@ -4,3 +4,4 @@ langchain
 openai
 chromadb
 tiktoken==0.5.1
+flask-cors
