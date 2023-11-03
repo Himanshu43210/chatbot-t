@@ -1,12 +1,16 @@
 from flask import Flask, jsonify, request
 import sys
+from flask_cors import CORS  # Import CORS
 
 # Assuming the function chat_with_user is in a file named chat.py
 sys.path.append("./products/BuilderfloorChatbot")
 from chatbot import text_to_text_conversation
 
 app = Flask(__name__)
+CORS(app)  # Enable CORS for all routes
 
+# If you need to set specific CORS options, you can do so:
+# cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 
 @app.route("/chat", methods=["POST"])
 def chat_endpoint():
