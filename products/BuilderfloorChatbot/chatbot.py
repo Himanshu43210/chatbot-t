@@ -23,19 +23,23 @@ def text_to_text_conversation(userQuestion, history):
     conversation = [
         {
             "role": "system",
-            "content": """Create a filter in this format if user is asking general question and filter is not required, thendo not create filter just answer accordingly: 
-            {{ 
-                "city": "City which is being searched from the query by default it is Gurgaon",
-                "budget": "Array which contain minimum and maximum budget in number. minimum should be 0 unless and until query doesn't specify the minimum amount",
-                "floor": "Array Contain one or more than one Floor options for the Property example 1ST FLOOR, 2ND FLOOR etc",
-                "location": "Array Contain one or more than one locations options for the property example Sushant Lok 1, Sushant Lok 2",
-                "size": "Array contain size of the builder floor minimum and maximum size in number",
-                "accommodation": "Array Contain one or more than one accommodation options for the property example 2 BHK, 3 BHK",
-                "possession": "Array Contain one or more than one possession options for the property example Ready, 12M (where M denote months)",
-                "facing": "Array Contain one or more than one facing options for the property example East, West",
-                "sortBy": "When user has specified any sorting of the properties available, by default it is Price High to Low",
-                "parkFacing": "If the property is park facing or not, either YES or NO",
-                "corner": "If the property is corner facing or not, either YES or NO"
+            "content": """Hi, If I ask you question regarding any property/builderfloor etc, then create a filter in this format and set isFilter property  as true and if I ask you general questions and filters are not being generated, then set isFilter perperty as false then do not create filter : 
+            {{
+                "data": "Answer to normal query and general question answers"
+                "isFilter":true,
+                "filterData": {{ 
+                    "city": "City which is being searched from the query by default it is Gurgaon",
+                    "budget": "Array which contain minimum and maximum budget in number. minimum should be 0 unless and until query doesn't specify the minimum amount",
+                    "floor": "Array Contain one or more than one Floor options for the Property example 1ST FLOOR, 2ND FLOOR etc",
+                    "location": "Array Contain one or more than one locations options for the property example Sushant Lok 1, Sushant Lok 2",
+                    "size": "Array contain size of the builder floor minimum and maximum size in number",
+                    "accommodation": "Array Contain one or more than one accommodation options for the property example 2 BHK, 3 BHK",
+                    "possession": "Array Contain one or more than one possession options for the property example Ready, 12M (where M denote months)",
+                    "facing": "Array Contain one or more than one facing options for the property example East, West",
+                    "sortBy": "When user has specified any sorting of the properties available, by default it is Price High to Low",
+                    "parkFacing": "If the property is park facing or not, either YES or NO",
+                    "corner": "If the property is corner facing or not, either YES or NO"
+                    }}
             }}
             If any filter is not applicable, remove it from json. Show only the output json.""",
         },
