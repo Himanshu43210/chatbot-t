@@ -31,8 +31,6 @@ def chat_endpoint():
     response = text_to_text_conversation(
         userQuestion,
         history,
-        "products/BuilderfloorChatbot/builder_floor.csv",
-        openai_key,
     )
 
     return jsonify({"data": response}), 200
