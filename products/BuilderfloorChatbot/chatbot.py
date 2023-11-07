@@ -83,7 +83,15 @@ def text_to_text_conversation(userQuestion, history):
             print("step 3")
             if api_response is not None:
                 print("step 4")
-                print(json.dumps(api_response, indent=4))
+                final_response = {
+                    "data": answer_json.get("data", "No answer found."),
+                    "isFilter": True,
+                    "filterData": filter_data,
+                    "propertyLinks": api_response[
+                        "propertyLinks"
+                    ],  # Include the property links
+                }
+                print(json.dumps(final_response, indent=4))
             else:
                 print("step 5")
                 print("No data received from API.")
@@ -93,7 +101,7 @@ def text_to_text_conversation(userQuestion, history):
         # If an error occurs, the answer is not JSON-formatted, so return as is
         answer_json = answer
 
-    return answer_json
+    return final_response
 
 
 # Test the method
