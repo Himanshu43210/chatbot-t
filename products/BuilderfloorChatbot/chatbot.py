@@ -1,7 +1,9 @@
 import json
 import os
-from dotenv import load_dotenv
 import openai
+from dotenv import load_dotenv
+
+from fetchData import fetchDataFromApi
 
 # Load the environment variables from .env file
 load_dotenv()
@@ -23,7 +25,7 @@ def text_to_text_conversation(userQuestion, history):
     conversation = [
         {
             "role": "system",
-            "content": """Hi, If I ask you question regarding any property/builderfloor etc, then create a filter in this format and set isFilter property  as true and if I ask you general questions and filters are not being generated, then set isFilter perperty as false then do not create filter : 
+            "content": """Hi, If I ask you question regarding any property/builderfloor etc, then create a filter in this format and set isFilter property  as 'True' and if I ask you general questions and filters are not being generated, then set isFilter perperty as 'False' then do not create filter : 
             {{
                 "data": "Answer to normal query and general question answers"
                 "isFilter":true,
@@ -66,9 +68,27 @@ def text_to_text_conversation(userQuestion, history):
     try:
         # Remove any unwanted newlines and backslashes from the string
         answer = answer.replace("\n", "").replace("\\", "")
-
         # Attempt to convert the string to a JSON object
         answer_json = json.loads(answer)
+        print(answer_json)
+
+        print(answer)
+        if isinstance(answer_json, dict) and answer_json.get("isFilter"):
+            print("step 1")
+            # Directly access 'filterData' from answer_json, not from answer_json["data"]
+            filter_data = answer_json["filterData"]
+            # filter_data = answer_json["data"]["filterData"]
+            print("step 2")
+            api_response = fetchDataFromApi(filter_data)
+            print("step 3")
+            if api_response is not None:
+                print("step 4")
+                print(json.dumps(api_response, indent=4))
+            else:
+                print("step 5")
+                print("No data received from API.")
+        else:
+            print("Not found")
     except json.JSONDecodeError:
         # If an error occurs, the answer is not JSON-formatted, so return as is
         answer_json = answer
