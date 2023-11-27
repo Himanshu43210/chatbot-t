@@ -53,7 +53,7 @@ def fetchDataFromMongoDB(filter_data):
         client.close()
 
 # Example usage
-filter_data = {'city': 'GURGAON', 'budget': [0, 20000000], 'accommodation': ['3 BHK'], 'location': ['SUSHANT LOK 1']}
+filter_data = {'city': 'GURGAON', 'budget': [0, 20000000], 'accommodation': ['3BHK'], 'location': ['SUSHANT LOK 1']}
 response = fetchDataFromMongoDB(filter_data)
 print("__________________________________________")
 print("response: ", response)
