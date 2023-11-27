@@ -14,11 +14,51 @@ def fetchDataFromDatabase(filter_data):
     if 'city' in filter_data and filter_data['city']:
         query['city'] = filter_data['city']
 
-    if 'accommodation' in filter_data and filter_data['accommodation']:
+    # Budget filter
+    if 'budget' in filter_data:
+        min_budget = filter_data['budget'][0] if filter_data['budget'][0] else 0
+        max_budget = filter_data['budget'][1] if len(filter_data['budget']) > 1 else None
+        if max_budget:
+            query['budget'] = {'$gte': min_budget, '$lte': max_budget}
+        else:
+            query['budget'] = {'$gte': min_budget}
+
+    # Floor filter
+    if 'floor' in filter_data:
+        query['floor'] = {'$in': filter_data['floor']}
+
+    # Location filter (uppercase)
+    if 'location' in filter_data:
+        query['sectorNumber'] = {'$in': [location.upper() for location in filter_data['location']]}
+
+    # Size filter
+    if 'size' in filter_data:
+        min_size = filter_data['size'][0] if filter_data['size'][0] else 0
+        max_size = filter_data['size'][1] if len(filter_data['size']) > 1 else None
+        if max_size:
+            query['size'] = {'$gte': min_size, '$lte': max_size}
+        else:
+            query['size'] = {'$gte': min_size}
+
+    # Accommodation filter
+    if 'accommodation' in filter_data:
         query['accommodation'] = {'$in': filter_data['accommodation']}
 
-    if 'location' in filter_data and filter_data['location']:
-        query['sectorNumber'] = {'$in': [location.upper() for location in filter_data['location']]}
+    # Possession filter
+    if 'possession' in filter_data:
+        query['possession'] = {'$in': filter_data['possession']}
+
+    # Facing filter
+    if 'facing' in filter_data:
+        query['facing'] = {'$in': filter_data['facing']}
+
+    # Park Facing filter
+    if 'parkFacing' in filter_data:
+        query['parkFacing'] = filter_data['parkFacing'].upper()
+
+    # Corner filter
+    if 'corner' in filter_data:
+        query['corner'] = filter_data['corner'].upper()
 
     print("MongoDB Query:", query)
 
