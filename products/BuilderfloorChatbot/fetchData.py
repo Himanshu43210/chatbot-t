@@ -1,7 +1,7 @@
 from pymongo import MongoClient
 import json
 
-def fetchDataFromMongoDB(filter_data):
+def fetchDataFromDatabase(filter_data):
     print("Fetching data from MongoDB with filter:", filter_data)
     client = MongoClient('mongodb://localhost:27017/') # Replace with your MongoDB URI
     db = client['bf_db'] # Replace with your database name
