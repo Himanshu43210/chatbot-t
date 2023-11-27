@@ -77,8 +77,8 @@ def fetchDataFromDatabase(filter_data):
     finally:
         conn.close()
 
-# # Example usage
-# filter_data = {'city': 'GURGAON', 'budget': [0, 20000000], 'accommodation': ['3 BHK'], 'location': ['SUSHANT lok 1']}
-# api_response = fetchDataFromDatabase(filter_data)
-# print("__________________________________________")
-# print("api_response: ", api_response)
+# Example usage
+filter_data = {'city': 'GURGAON', 'budget': [0, 20000000], 'accommodation': ['3 BHK'], 'location': ['SUSHANT lok 1']}
+api_response = fetchDataFromDatabase(filter_data)
+print("__________________________________________")
+print("api_response: ", api_response)
