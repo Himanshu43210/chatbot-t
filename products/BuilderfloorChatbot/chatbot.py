@@ -67,6 +67,7 @@ def text_to_text_conversation(userQuestion, history):
     print("Received answer from OpenAI:", answer)
 
     final_response = None
+    filter_data = {} 
     # Convert the string answer to a JSON object if it is JSON-formatted
     try:
         # Remove any unwanted newlines and backslashes from the string
@@ -79,7 +80,8 @@ def text_to_text_conversation(userQuestion, history):
         if isinstance(answer_json, dict) and answer_json.get("isFilter"):
             print("step 1")
             # Directly access 'filterData' from answer_json, not from answer_json["data"]
-            filter_data = answer_json["filterData"]
+            filter_data = answer_json.get("filterData", {})
+            # filter_data = answer_json["filterData"]
             # filter_data = answer_json["data"]["filterData"]
             print("step 2")
             # api_response = fetchDataFromApi(filter_data)
@@ -118,11 +120,12 @@ def text_to_text_conversation(userQuestion, history):
     except json.JSONDecodeError:
         # If an error occurs, the answer is not JSON-formatted, so return as is
         answer_json = answer
+    
     if final_response is None:
         final_response = {
                     "data": "Sorry, no match found for your query",
                     "isFilter": True,
-                    "filterData": filter_data,
+                    "filterData": {},
                     "propertyLinks": ""
                 }
     return final_response
