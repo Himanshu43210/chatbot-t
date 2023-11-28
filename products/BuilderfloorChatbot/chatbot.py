@@ -34,7 +34,7 @@ def text_to_text_conversation(userQuestion, history):
                     "city": "City which is being searched from the query by default it is GURGAON and it is case sensitive, it should always be in upper case.",
                     "budget": "Array which contain minimum and maximum budget in number. minimum should be 0 unless and until query doesn't specify the minimum amount",
                     "floor": "Array Contain one or more than one Floor options for the Property example 1ST FLOOR, 2ND FLOOR etc",
-                    "location": "Array Contain one or more than one locations options for the property example Sushant Lok 1, Sushant Lok 2, change it to upper case.",
+                    "location": "Array Contain one or more than one locations options for the property example Sushant Lok 1, Sushant Lok 2, Sector 27, change it to upper case.",
                     "size": "Array contain size of the builder floor minimum and maximum size in number",
                     "accommodation": "Array Contain one or more than one accommodation options for the property example 2 BHK, 3 BHK",
                     "possession": "Array Contain one or more than one possession options for the property example Ready, 12M (where M denote months)",
