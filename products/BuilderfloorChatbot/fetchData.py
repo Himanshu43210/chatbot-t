@@ -92,9 +92,9 @@ def fetchDataFromDatabase(filter_data):
     finally:
         client.close()
 
-# Example usage
-filter_data = {'city': 'GURGAON','accommodation': ['3 BHK'], 'location': ['SUSHANT LOK 3']}
-# filter_data = {'city': 'GURGAON'}
-response = fetchDataFromDatabase(filter_data)
-print("__________________________________________")
-print("response: ", response)
+# # Example usage
+# filter_data = {'city': 'GURGAON','accommodation': ['3 BHK'], 'location': ['SUSHANT LOK 3']}
+# # filter_data = {'city': 'GURGAON'}
+# response = fetchDataFromDatabase(filter_data)
+# print("__________________________________________")
+# print("response: ", response)
