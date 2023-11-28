@@ -95,6 +95,6 @@ def fetchDataFromDatabase(filter_data):
 # Example usage
 filter_data = {'city': 'GURGAON','accommodation': ['3 BHK'], 'location': ['SUSHANT LOK 3']}
 # filter_data = {'city': 'GURGAON'}
-response = fetchDataFromMongoDB(filter_data)
+response = fetchDataFromDatabase(filter_data)
 print("__________________________________________")
 print("response: ", response)
