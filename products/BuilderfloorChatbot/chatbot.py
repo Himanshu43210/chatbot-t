@@ -119,5 +119,5 @@ if __name__ == "__main__":
     #     "I am looking for a 3BHK flat in SUSHANT LOK 2 under 4 Crores.", "Hi, My name is Isha."
     # )
     # chatResponse = text_to_text_conversation("I am looking for a 3BHK flat in SECTOR 26 under 4 Crores.", "Hi, My name is Isha.")
-    chatResponse = text_to_text_conversation("I am looking for a 3BHK flat under 10 crores in Sushant Lok 1", "Hi, My name is Isha.")
+    chatResponse = text_to_text_conversation("I am looking for a 3BHK flat in Sushant Lok 3 under 4 crores", "Hi, My name is Isha.")
     print(chatResponse)
