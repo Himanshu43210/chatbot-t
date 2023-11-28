@@ -3,7 +3,7 @@ from tinydb import TinyDB, Query
 import os
 def fetchDataFromDatabase(filter_data):
     print("Fetching data from TinyDB with filter:", filter_data)
-    db_path = os.path.join(current_app.root_path, './products/BuilderfloorChatbot/db.json')
+    db_path = os.path.join('./products/BuilderfloorChatbot/db.json', 'db.json')
     db = TinyDB(db_path)
     # db = TinyDB('db.json')  
     table = db.table('_default')  
