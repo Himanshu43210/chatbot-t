@@ -16,14 +16,21 @@ def fetchDataFromDatabase(filter_data):
     if 'city' in filter_data and filter_data['city']:
         query.append(QueryObj.city == filter_data['city'])
 
-    # Budget filter
     if 'budget' in filter_data:
-        min_budget = filter_data['budget'][0] if filter_data['budget'][0] else 0
-        max_budget = filter_data['budget'][1] if len(filter_data['budget']) > 1 else None
-        if max_budget:
-            query.append((QueryObj.budget >= min_budget) & (QueryObj.budget <= max_budget))
-        else:
-            query.append(QueryObj.budget >= min_budget)
+        min_budget = int(filter_data['budget'][0]) if filter_data['budget'][0] else 0
+        max_budget = int(filter_data['budget'][1]) if len(filter_data['budget']) > 1 else None
+        results = table.all()  # Retrieve all records from the table
+        filtered_results = []
+
+        for item in results:
+            item_price = item.get('price', None)
+            if item_price is not None and item_price != "Price on Request":
+                try:
+                    item_price = int(item_price)  # Convert the price field to an integer
+                    if min_budget <= item_price <= max_budget:
+                        filtered_results.append(item)
+                except ValueError:
+                    pass  # Skip items with non-integer price values
 
     # Floor filter
     if 'floor' in filter_data:
@@ -97,7 +104,8 @@ def fetchDataFromDatabase(filter_data):
         return {"propertyLinks": []}
 
 # Example usage
-filter_data = {'city': 'GURGAON', 'accommodation': ['3 BHK'], 'location': ['SUSHANT LOK 3']}
+# filter_data = {'city': 'GURGAON', 'accommodation': ['3 BHK'], 'location': ['SUSHANT LOK 3']}
+filter_data = {'city': 'GURGAON', 'budget': [0, 40000000], 'accommodation': ['3 BHK'], 'location': ['SUSHANT LOK 3']}
 response = fetchDataFromDatabase(filter_data)
 print("__________________________________________")
 print("response: ", response)
