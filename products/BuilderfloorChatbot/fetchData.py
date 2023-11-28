@@ -1,6 +1,6 @@
 
 from tinydb import TinyDB, Query
-
+import os
 def fetchDataFromDatabase(filter_data):
     print("Fetching data from TinyDB with filter:", filter_data)
     db_path = os.path.join(current_app.root_path, './products/BuilderfloorChatbot/db.json')
