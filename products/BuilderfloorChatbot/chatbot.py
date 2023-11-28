@@ -87,9 +87,19 @@ def text_to_text_conversation(userQuestion, history):
             print("api_response: ", api_response)
             print("step 3")
             if api_response and api_response.get('propertyLinks') == []:
-                final_response = "Sorry, no match found for your query"
+                final_response = {
+                    "data": "Sorry, no match found for your query",
+                    "isFilter": True,
+                    "filterData": filter_data,
+                    "propertyLinks": ""
+                }
             elif api_response == 'Not found':
-                final_response = "Sorry, no match found for your query"
+                final_response = {
+                    "data": "Sorry, no match found for your query",
+                    "isFilter": True,
+                    "filterData": filter_data,
+                    "propertyLinks": ""
+                }
             elif api_response:
                 final_response = {
                     "data": answer_json.get("data", "No answer found."),
@@ -109,7 +119,12 @@ def text_to_text_conversation(userQuestion, history):
         # If an error occurs, the answer is not JSON-formatted, so return as is
         answer_json = answer
     if final_response is None:
-        final_response = "Sorry, no match found for your query"
+        final_response = {
+                    "data": "Sorry, no match found for your query",
+                    "isFilter": True,
+                    "filterData": filter_data,
+                    "propertyLinks": ""
+                }
     return final_response
 
 
@@ -119,5 +134,5 @@ if __name__ == "__main__":
     #     "I am looking for a 3BHK flat in SUSHANT LOK 2 under 4 Crores.", "Hi, My name is Isha."
     # )
     # chatResponse = text_to_text_conversation("I am looking for a 3BHK flat in SECTOR 26 under 4 Crores.", "Hi, My name is Isha.")
-    chatResponse = text_to_text_conversation("I am looking for a 3BHK flat in Sushant Lok 3 under 4 crores", "Hi, My name is Isha.")
+    chatResponse = text_to_text_conversation("I am looking for a 3BHK flat in Sushant Lok 7 under 4 crores", "Hi, My name is Isha.")
     print(chatResponse)
