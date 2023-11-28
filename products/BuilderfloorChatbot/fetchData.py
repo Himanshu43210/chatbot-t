@@ -3,9 +3,10 @@ from tinydb import TinyDB, Query
 
 def fetchDataFromDatabase(filter_data):
     print("Fetching data from TinyDB with filter:", filter_data)
-    db = TinyDB('db.json')  # Replace 'db.json' with your TinyDB file
-    table = db.table('_default')  # Replace with your table name
-
+    db_path = os.path.join(current_app.root_path, './products/BuilderfloorChatbot/db.json')
+    db = TinyDB(db_path)
+    # db = TinyDB('db.json')  
+    table = db.table('_default')  
     # TinyDB Query Object
     QueryObj = Query()
 
