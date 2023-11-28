@@ -1,34 +1,12 @@
 
-import json
-from tinydb import TinyDB
-
-# Path to your TinyDB database file
-db_path = "db.json"
-db = TinyDB(db_path)
-
-# Path to your source JSON file
-source_json_path = "BF_property_data.json"
-
-# Load data from the source JSON file
-with open(source_json_path, 'r', encoding='utf-8') as file:
-    data = json.load(file)
-
-# Assuming 'data' is a list of dictionaries
-for item in data:
-    db.insert(item)
-
-print("Data insertion complete.")
-
-# Fetching data from Tiny DB
 from tinydb import TinyDB, Query
-import json
 
-def fetchDataFromDatabase(filter_data):
+def fetchDataFromTinyDB(filter_data):
     print("Fetching data from TinyDB with filter:", filter_data)
-    db = TinyDB('db.json')  # Replace with your TinyDB file path
-    collection = db.table('Properties')  # Replace with your table name
+    db = TinyDB('db.json')  # Replace 'db.json' with your TinyDB file
+    table = db.table('_default')  # Replace with your table name
 
-    # TinyDB query object
+    # TinyDB Query Object
     QueryObj = Query()
 
     # Base query
@@ -49,57 +27,56 @@ def fetchDataFromDatabase(filter_data):
 
     # Floor filter
     if 'floor' in filter_data:
-        query['floor'] = {'$in': filter_data['floor']}
+        query.append(QueryObj.floor.one_of(filter_data['floor']))
 
     # Location filter (uppercase)
     if 'location' in filter_data:
-        query['sectorNumber'] = {'$in': [location.upper() for location in filter_data['location']]}
+        query.append(QueryObj.sectorNumber.one_of([location.upper() for location in filter_data['location']]))
 
     # Size filter
     if 'size' in filter_data:
         min_size = filter_data['size'][0] if filter_data['size'][0] else 0
         max_size = filter_data['size'][1] if len(filter_data['size']) > 1 else None
         if max_size:
-            query['size'] = {'$gte': min_size, '$lte': max_size}
+            query.append((QueryObj.size >= min_size) & (QueryObj.size <= max_size))
         else:
-            query['size'] = {'$gte': min_size}
+            query.append(QueryObj.size >= min_size)
 
     # Accommodation filter
     if 'accommodation' in filter_data:
-        query['accommodation'] = {'$in': filter_data['accommodation']}
+        query.append(QueryObj.accommodation.one_of(filter_data['accommodation']))
 
     # Possession filter
     if 'possession' in filter_data:
-        query['possession'] = {'$in': filter_data['possession']}
+        query.append(QueryObj.possession.one_of(filter_data['possession']))
 
     # Facing filter
     if 'facing' in filter_data:
-        query['facing'] = {'$in': filter_data['facing']}
+        query.append(QueryObj.facing.one_of(filter_data['facing']))
 
     # Park Facing filter
     if 'parkFacing' in filter_data:
-        query['parkFacing'] = filter_data['parkFacing'].upper()
+        query.append(QueryObj.parkFacing == filter_data['parkFacing'].upper())
 
     # Corner filter
     if 'corner' in filter_data:
-        query['corner'] = filter_data['corner'].upper()
+        query.append(QueryObj.corner == filter_data['corner'].upper())
 
     print("TinyDB Query:", query)
 
     try:
-        if query:
-            combined_query = query[0]
-            for q in query[1:]:
-                combined_query &= q
-            results = collection.search(combined_query)
-        else:
-            results = collection.all()
+        # Combining all query conditions
+        final_query = query[0]
+        for q in query[1:]:
+            final_query &= q
+
+        results = table.search(final_query)
 
         property_links = []
 
         for item in results:
-            if "title" in item:
-                id = item.doc_id  # TinyDB uses doc_id as the unique identifier
+            if "title" in item and "_id" in item and "$oid" in item["_id"]:
+                custom_id = item["_id"]["$oid"]  # Extracting the custom ID
 
                 formatted_string = (
                     f"https://builderfloor.com/"
@@ -110,7 +87,7 @@ def fetchDataFromDatabase(filter_data):
                     f"{item.get('accommodation', '').replace(' ', '_')}-"
                     f"{item.get('facing', '').replace(' ', '_').upper()}-"
                     f"{item.get('possession', '').replace(' ', '_').upper()}-"
-                    f"{id}"
+                    f"{custom_id}"
                 )
                 property_links.append(formatted_string)
         return {"propertyLinks": property_links}
@@ -121,6 +98,6 @@ def fetchDataFromDatabase(filter_data):
 
 # Example usage
 filter_data = {'city': 'GURGAON', 'accommodation': ['3 BHK'], 'location': ['SUSHANT LOK 3']}
-response = fetchDataFromDatabase(filter_data)
+response = fetchDataFromTinyDB(filter_data)
 print("__________________________________________")
 print("response: ", response)
