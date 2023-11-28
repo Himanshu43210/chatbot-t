@@ -1,10 +1,10 @@
-from tinydb import TinyDB
+# from tinydb import TinyDB
 
-# Specify the path to the JSON file
-db_path = "products/BuilderfloorChatbot/BF_property_data.json"
+# # Specify the path to the JSON file
+# db_path = "products/BuilderfloorChatbot/BF_property_data.json"
 
-# Initialize a TinyDB instance and open the JSON file
-db = TinyDB(db_path)
+# # Initialize a TinyDB instance and open the JSON file
+# db = TinyDB(db_path)
 
 # Fetching data from Tiny DB
 from tinydb import TinyDB, Query
