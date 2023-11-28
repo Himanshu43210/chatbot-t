@@ -1,10 +1,23 @@
-# from tinydb import TinyDB
 
-# # Specify the path to the JSON file
-# db_path = "products/BuilderfloorChatbot/BF_property_data.json"
+import json
+from tinydb import TinyDB
 
-# # Initialize a TinyDB instance and open the JSON file
-# db = TinyDB(db_path)
+# Path to your TinyDB database file
+db_path = "db.json"
+db = TinyDB(db_path)
+
+# Path to your source JSON file
+source_json_path = "BF_property_data.json"
+
+# Load data from the source JSON file
+with open(source_json_path, 'r', encoding='utf-8') as file:
+    data = json.load(file)
+
+# Assuming 'data' is a list of dictionaries
+for item in data:
+    db.insert(item)
+
+print("Data insertion complete.")
 
 # Fetching data from Tiny DB
 from tinydb import TinyDB, Query
