@@ -1,6 +1,19 @@
 
 from tinydb import TinyDB, Query
 import os
+from tinydb.queries import where
+
+def is_price_within_budget(item, min_budget, max_budget):
+    """ Custom condition to check if the item's price is within the budget range. """
+    try:
+        # Attempt to convert the price to an integer
+        item_price = int(item)
+        # Check if the price falls within the specified budget range
+        return min_budget <= item_price <= (max_budget if max_budget is not None else item_price)
+    except ValueError:
+        # If the conversion fails, exclude the item
+        return False
+        
 def fetchDataFromDatabase(filter_data):
     print("Fetching data from TinyDB with filter:", filter_data)
     db_path = os.path.join(os.getcwd(), 'products/BuilderfloorChatbot/db.json')
@@ -20,18 +33,9 @@ def fetchDataFromDatabase(filter_data):
     if 'budget' in filter_data:
         min_budget = int(filter_data['budget'][0]) if filter_data['budget'][0] else 0
         max_budget = int(filter_data['budget'][1]) if len(filter_data['budget']) > 1 else None
-        results = table.all()  # Retrieve all records from the table
-        filtered_results = []
+        # Adding custom budget condition
+        query.append(where('price').test(is_price_within_budget, min_budget, max_budget))
 
-        for item in results:
-            item_price = item.get('price', None)
-            if item_price is not None and item_price != "Price on Request":
-                try:
-                    item_price = int(item_price)  # Convert the price field to an integer
-                    if min_budget <= item_price <= max_budget:
-                        filtered_results.append(item)
-                except ValueError:
-                    pass  # Skip items with non-integer price values
 
     # Floor filter
     if 'floor' in filter_data:
