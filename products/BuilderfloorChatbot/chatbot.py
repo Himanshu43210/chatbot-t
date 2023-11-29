@@ -2,6 +2,7 @@ import json
 import os
 import openai
 from dotenv import load_dotenv
+import time
 
 # from fetchData1 import fetchDataFromApi
 from fetchData import fetchDataFromDatabase
@@ -11,6 +12,7 @@ load_dotenv()
 
 
 def text_to_text_conversation(userQuestion, history):
+    start_time = time.time()
     # Retrieve the OpenAI API key from environment variables
     openai_api_key = os.getenv("OPENAI_API_KEY")
     if openai_api_key is None:
@@ -110,6 +112,8 @@ def text_to_text_conversation(userQuestion, history):
                     "propertyLinks": api_response["propertyLinks"]
                 }
                 print(json.dumps(final_response, indent=4))
+                end_time = time.time()
+                print('Time Taken: ' , end_time-start_time)
                 
             else:
                 print("step 5")
