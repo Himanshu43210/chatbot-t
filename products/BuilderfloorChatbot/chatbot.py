@@ -67,6 +67,7 @@ def text_to_text_conversation(userQuestion, history):
         .strip()
     )
     print("Received answer from OpenAI:", answer)
+    end_time_gpt = time.time()
 
     final_response = None
     filter_data = {} 
@@ -113,7 +114,8 @@ def text_to_text_conversation(userQuestion, history):
                 }
                 print(json.dumps(final_response, indent=4))
                 end_time = time.time()
-                print('Time Taken: ' , end_time-start_time)
+                print('Total Time Taken: ' , end_time-start_time)
+                print('Time Taken by gpt: ' , end_time_gpt-start_time)
                 
             else:
                 print("step 5")
