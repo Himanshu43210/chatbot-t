@@ -36,17 +36,16 @@ def fetchDataFromDatabase(filter_data):
         # Adding custom budget condition
         query.append(where('price').test(is_price_within_budget, min_budget, max_budget))
 
-
     # Floor filter
-    if 'floor' in filter_data:
+    if 'floor' in filter_data and filter_data['floor']:
         query.append(QueryObj.floor.one_of(filter_data['floor']))
 
     # Location filter (uppercase)
-    if 'location' in filter_data:
+    if 'location' in filter_data and filter_data['location']:
         query.append(QueryObj.sectorNumber.one_of([location.upper() for location in filter_data['location']]))
 
     # Size filter
-    if 'size' in filter_data:
+    if 'size' in filter_data and filter_data['size']:
         min_size = filter_data['size'][0] if filter_data['size'][0] else 0
         max_size = filter_data['size'][1] if len(filter_data['size']) > 1 else None
         if max_size:
@@ -55,23 +54,23 @@ def fetchDataFromDatabase(filter_data):
             query.append(QueryObj.size >= min_size)
 
     # Accommodation filter
-    if 'accommodation' in filter_data:
+    if 'accommodation' in filter_data and filter_data['accommodation']:
         query.append(QueryObj.accommodation.one_of(filter_data['accommodation']))
 
     # Possession filter
-    if 'possession' in filter_data:
+    if 'possession' in filter_data and filter_data['possession']:
         query.append(QueryObj.possession.one_of(filter_data['possession']))
 
     # Facing filter
-    if 'facing' in filter_data:
+    if 'facing' in filter_data and filter_data['facing']:
         query.append(QueryObj.facing.one_of(filter_data['facing']))
 
     # Park Facing filter
-    if 'parkFacing' in filter_data:
+    if 'parkFacing' in filter_data and filter_data['parkFacing']:
         query.append(QueryObj.parkFacing == filter_data['parkFacing'].upper())
 
     # Corner filter
-    if 'corner' in filter_data:
+    if 'corner' in filter_data and filter_data['corner']:
         query.append(QueryObj.corner == filter_data['corner'].upper())
 
     print("TinyDB Query:", query)
