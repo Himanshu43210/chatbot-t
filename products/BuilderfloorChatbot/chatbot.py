@@ -28,7 +28,7 @@ def text_to_text_conversation(userQuestion, history):
             "role": "system",
             "content": """Hi, If I ask you question regarding any property/builderfloor etc, then create a filter in this format and set isFilter property  as 'True' and if I ask you general questions and filters are not being generated, then set isFilter perperty as 'False' then do not create filter : 
             {{
-                "data": "Answer to normal query and general question answers"
+                "data": "Answer to normal query and general question answers.  It should be positive if isFilter is 'True', like "Yes, I have fould some properties"
                 "isFilter":true,
                 "filterData": {{ 
                     "city": "City which is being searched from the query by default it is GURGAON and it is case sensitive, it should always be in upper case.",
